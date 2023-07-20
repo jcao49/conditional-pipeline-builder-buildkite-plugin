@@ -4,6 +4,6 @@ author: https://github.com/a-github-user
 requirements: []
 configuration:
   properties:
-    some-input:
+    pattern:
       type: string
   additionalProperties: false
