@@ -1,0 +1,9 @@
+name: Conditional Pipeline Builder
+description: developing
+author: https://github.com/a-github-user
+requirements: []
+configuration:
+  properties:
+    some-input:
+      type: string
+  additionalProperties: false
