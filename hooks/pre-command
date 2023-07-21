@@ -6,7 +6,7 @@ echo "CONDITIONAL_PIPELINE_SLUG=$(buildkite-agent meta-data get CONDITIONAL_PIPE
 # BuildKite has no docs on this :( trial and error based on https://forum.buildkite.community/t/plugin-inputs-as-array/1747
 
 changed_files=$(git diff --name-only origin/main...HEAD)
-echo $changed_files
+echo "changed_files=$changed_files"
 
 group_lint_paths=()
 i=0
@@ -14,12 +14,12 @@ i=0
 while [ -n "$(eval echo \$BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_LINT_GROUP_${i})" ]
 do
     path="$(eval echo \$BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_CONDITIONAL_PIPELINE_BUILDER_LINT_GROUP_${i})"
-    echo "$path"
+    echo "path=$path"
     group_lint_paths+=("$path")
     i=$((i + 1))
 done
 
-echo "group lint=$group_lint_paths"
+echo "group lint=$group_lint_paths[*]"
 
 for path in "${group_lint_paths[@]}"; do
   if echo "$changed_files" | grep -q "^$path"; then
