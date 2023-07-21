@@ -16,5 +16,5 @@ configuration:
     #     includes:
     #       type: string
     lint-group: 
-      type: string
+      type: array
   additionalProperties: false
