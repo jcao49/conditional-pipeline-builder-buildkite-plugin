@@ -11,8 +11,6 @@ echo $changed_files
 group_lint_paths=()
 i=0
 
-echo "wtf=$(BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_LINT_GROUP_0)"
-
 while [ -n "$(eval echo \$BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_LINT_GROUP_${i})" ]
 do
     path="$(eval echo \$BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_CONDITIONAL_PIPELINE_BUILDER_LINT_GROUP_${i})"
@@ -21,7 +19,7 @@ do
     i=$((i + 1))
 done
 
-echo $group_lint_paths
+echo "group lint=$group_lint_paths"
 
 for path in "${group_lint_paths[@]}"; do
   if echo "$changed_files" | grep -q "^$path"; then
