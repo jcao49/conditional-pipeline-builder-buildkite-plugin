@@ -1,6 +1,8 @@
 BUILDKITE_PATTERN="$BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_PATTERN"
 echo "Pattern is set to ${BUILDKITE_PATTERN}"
 
+buildkite-agent meta-data set "BUILDKITE_PATTERN" "true"
+
 export TEST_VAR="meep"
 export BUILDKITE_PATTERN
 
