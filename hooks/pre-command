@@ -3,6 +3,4 @@ echo "Pattern is set to ${BUILDKITE_PATTERN}"
 
 buildkite-agent meta-data set "RUN_LINT" "true"
 
-export TEST_VAR="meep"
-export BUILDKITE_PATTERN
-
+./scripts/mapper.sh
