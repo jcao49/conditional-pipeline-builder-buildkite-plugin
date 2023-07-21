@@ -6,13 +6,11 @@ configuration:
   properties:
     conditional-pipeline-slug:
       type: string
-    steps:
-      type: [ object, array ]
+    lint-group:
+      type: [object, string]
       properties:
-        key:
+        key: 
           type: string
-        include:
-          type: [ string, array ]
-        exclude:
-          type: [ string, array ]
+        includes:
+          type: string
   additionalProperties: false
