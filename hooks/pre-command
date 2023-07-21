@@ -6,21 +6,30 @@ echo "CONDITIONAL_PIPELINE_SLUG=$(buildkite-agent meta-data get CONDITIONAL_PIPE
 # BuildKite has no docs on this :( trial and error based on https://forum.buildkite.community/t/plugin-inputs-as-array/1747
 
 changed_files=$(git diff --name-only origin/main...HEAD)
+echo $changed_files
 
-declare -a GROUP_LINT_PATHS=()
-
+group_lint_paths=()
 i=0
-while [-z "$BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_CONDITIONAL_PIPELINE_BUILDER_LINT_GROUP_${i}"]
+
+while [ -n "$(eval echo \$BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_CONDITIONAL_PIPELINE_BUILDER_LINT_GROUP_${i})" ]
 do
-   echo $BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_CONDITIONAL_PIPELINE_BUILDER_LINT_GROUP_${i}
-   i=$(( $i + 1 ))
+    path="$(eval echo \$BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_CONDITIONAL_PIPELINE_BUILDER_LINT_GROUP_${i})"
+    echo "$path"
+    group_lint_paths+=("$path")
+    i=$((i + 1))
 done
 
-buildkite-agent meta-data set "LINT_GROUP" "$BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_CONDITIONAL_PIPELINE_BUILDER_LINT_GROUP"
-echo "BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_LINT_GROUP=$BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_LINT_GROUP"
+echo $group_lint_paths
 
-buildkite-agent meta-data set "RUN_LINT" "true"
+for path in "${group_lint_paths[@]}"; do
+  if echo "$changed_files" | grep -q "^$path"; then
+    echo "At least one changed file belongs to $path"
+    echo "Setting RUN_LINT to true"
+    buildkite-agent meta-data set "RUN_LINT" "true"
+    break
+  fi
+done
 
-changed_files=$(git diff --name-only origin/main...HEAD)
+# buildkite-agent meta-data set "LINT_GROUP" "$BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_CONDITIONAL_PIPELINE_BUILDER_LINT_GROUP"
+# echo "BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_LINT_GROUP=$BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_LINT_GROUP"
 
-echo $changed_files
