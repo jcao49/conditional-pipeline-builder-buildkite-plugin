@@ -8,6 +8,13 @@ configuration:
       type: string
     # TODO: docs are nonexistent for how to get the BUILDKIT_PLUGIN_* input variable names for an array or object, using string for now
     # https://buildkite.com/docs/plugins/writing
+    # lint-group:
+    #   type: [array]
+    #   properties:
+    #     key: 
+    #       type: string
+    #     includes:
+    #       type: string
     lint-group: 
       type: string
   additionalProperties: false
