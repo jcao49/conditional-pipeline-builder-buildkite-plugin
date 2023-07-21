@@ -7,7 +7,7 @@ configuration:
     conditional-pipeline-slug:
       type: string
     lint-group:
-      type: [object, string]
+      type: [array]
       properties:
         key: 
           type: string
