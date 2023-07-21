@@ -4,6 +4,15 @@ author: https://github.com/a-github-user
 requirements: []
 configuration:
   properties:
-    pattern:
+    conditional-pipeline-slug:
       type: string
+    steps:
+      type: [ object, array ]
+      properties:
+        key:
+          type: string
+        include:
+          type: [ string, array ]
+        exclude:
+          type: [ string, array ]
   additionalProperties: false
