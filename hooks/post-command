@@ -1,0 +1,5 @@
+PATTERN="$BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_PATTERN"
+echo "Pattern is set to ${PATTERN}"
+
+buildkite-agent annotate "Found pattern2: ${PATTERN}"
+buildkite-agent annotate 'Found pattern: ${PATTERN} --style 'info' --context 'ctx-info'
