@@ -2,7 +2,19 @@
 buildkite-agent meta-data set "CONDITIONAL_PIPELINE_SLUG" "$BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_CONDITIONAL_PIPELINE_SLUG"
 echo "CONDITIONAL_PIPELINE_SLUG=$(buildkite-agent meta-data get CONDITIONAL_PIPELINE_SLUG)"
 
-# Crea
+# Create a set that will store all the paths we want to check against, check to see if any of the changed files belong to these paths if so set LINT_GROUP to true
+# BuildKite has no docs on this :( trial and error based on https://forum.buildkite.community/t/plugin-inputs-as-array/1747
+
+changed_files=$(git diff --name-only origin/main...HEAD)
+
+declare -a GROUP_LINT_PATHS=()
+
+i=0
+while [$BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_CONDITIONAL_PIPELINE_BUILDER_LINT_GROUP_${i}]
+do
+   echo $BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_CONDITIONAL_PIPELINE_BUILDER_LINT_GROUP_${i}
+done
+
 buildkite-agent meta-data set "LINT_GROUP" "$BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_CONDITIONAL_PIPELINE_BUILDER_LINT_GROUP"
 echo "BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_LINT_GROUP=$BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_LINT_GROUP"
 
