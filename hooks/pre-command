@@ -13,7 +13,6 @@ do
     i=$((i + 1))
 done
 
-# Store the output of the git diff as a string where the files found are separated by newline characters 
 changed_files=$(git diff --name-only origin/main...HEAD)
 # Check if any of the changed files belong to a path specified in the input
 for path in "${group_lint_paths[@]}"; do
