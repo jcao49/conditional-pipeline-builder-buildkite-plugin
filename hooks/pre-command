@@ -4,23 +4,18 @@ echo "CONDITIONAL_PIPELINE_SLUG=$(buildkite-agent meta-data get CONDITIONAL_PIPE
 
 # Create an array that will store all the paths we want to check against, check to see if any of the changed files belong to these paths if so set LINT_GROUP to true
 # BuildKite has no docs for this ${i} extension on the input var :( trial and error based on https://forum.buildkite.community/t/plugin-inputs-as-array/1747
-
-changed_files=$(git diff --name-only origin/main...HEAD)
-echo "changed_files=$changed_files"
-
 group_lint_paths=()
 i=0
-
 while [ -n "$(eval echo \$BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_LINT_GROUP_${i})" ]
 do
     path="$(eval echo \$BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_LINT_GROUP_${i})"
-    echo "path=$path"
     group_lint_paths+=("$path")
     i=$((i + 1))
 done
 
-echo "group lint=${group_lint_paths[*]}"
-
+# Store the output of the git diff as a string where the files found are separated by newline characters 
+changed_files=$(git diff --name-only origin/main...HEAD)
+# Check if any of the changed files belong to a path specified in the input
 for path in "${group_lint_paths[@]}"; do
   if echo "$changed_files" | grep -q "^$path"; then
     echo "At least one changed file belongs to $path"
@@ -30,9 +25,4 @@ for path in "${group_lint_paths[@]}"; do
   fi
 done
 
-echo "BUILDKITE_BRANCH=${BUILDKITE_BRANCH}"
-export BUILDKITE_BRANCH
-
-# buildkite-agent meta-data set "LINT_GROUP" "$BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_CONDITIONAL_PIPELINE_BUILDER_LINT_GROUP"
-# echo "BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_LINT_GROUP=$BUILDKITE_PLUGIN_CONDITIONAL_PIPELINE_BUILDER_LINT_GROUP"
-
+# TODO: as we add more groups and inputs for groups, we'll need to refactor this
