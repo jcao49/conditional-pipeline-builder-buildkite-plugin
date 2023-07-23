@@ -25,7 +25,7 @@ The dynamic pipeline that will conditionally run steps.
 
 The paths that you wish to trigger this step/group of lint tests to run on.
 
-# TODOs:
+## TODOs:
 - update the plugin so that it takes in a more flexible input:
 ```yml
 steps:
